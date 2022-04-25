@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/bookstoreapi_purchases
+    password: jackson1403
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: 'true'
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    hibernate:
+      ddl-auto: validate
