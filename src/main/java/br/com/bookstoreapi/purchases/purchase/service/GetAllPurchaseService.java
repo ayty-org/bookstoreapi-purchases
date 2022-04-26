@@ -1,6 +1,6 @@
-package com.bookstoreapi.bookstoreapi.purchase.service;
+package br.com.bookstoreapi.purchases.purchase.service;
 
-import com.bookstoreapi.bookstoreapi.purchase.Purchase;
+import br.com.bookstoreapi.purchases.purchase.Purchase;
 
 import java.util.List;
 

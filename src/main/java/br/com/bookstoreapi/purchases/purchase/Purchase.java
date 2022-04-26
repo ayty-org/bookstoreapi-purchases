@@ -1,9 +1,7 @@
-package com.bookstoreapi.bookstoreapi.purchase;
+package br.com.bookstoreapi.purchases.purchase;
 
-import com.bookstoreapi.bookstoreapi.book.Book;
-import com.bookstoreapi.bookstoreapi.client.Client;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Reference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,25 +22,12 @@ public class Purchase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.uuid.UUIDGenerator")
     private UUID uuid;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "uuid")
-    private Client client;
+    private UUID clientUuid;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name="purchases_purchased_books",
-            joinColumns = {
-                    @JoinColumn(name = "purchase_id", referencedColumnName = "uuid")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(table = "books",name = "book_id", referencedColumnName = "uuid")
-            }
-    )
-    private List<Book> purchasedBooks;
+    @ElementCollection()
+    private List<UUID> booksUuid;
 
     private Double amount;
     private Date purchaseDate;

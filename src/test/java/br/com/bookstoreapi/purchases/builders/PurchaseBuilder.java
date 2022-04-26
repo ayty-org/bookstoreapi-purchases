@@ -1,12 +1,15 @@
-package com.bookstoreapi.bookstoreapi.builders;
+package br.com.bookstoreapi.purchases.builders;
 
-import com.bookstoreapi.bookstoreapi.purchase.Purchase;
-import com.bookstoreapi.bookstoreapi.purchase.PurchaseRecieveDTO;
+
+import br.com.bookstoreapi.purchases.book.BookDTO;
+import br.com.bookstoreapi.purchases.purchase.Purchase;
+import br.com.bookstoreapi.purchases.purchase.PurchaseRecieveDTO;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PurchaseBuilder {
 
@@ -14,8 +17,8 @@ public class PurchaseBuilder {
         return Purchase.builder()
                 .id(1L)
                 .uuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"))
-                .client(ClientBuilder.clientJenipapo1())
-                .purchasedBooks(BookBuilder.bookList())
+                .clientUuid(ClientBuilder.clientJenipapo1().getUuid())
+                .booksUuid(BookBuilder.bookList().stream().map(BookDTO::getUuid).collect(Collectors.toList()))
                 .amount(100.0)
                 .purchaseDate(new Date(14112020))
                 .isCompleted(true)
@@ -26,8 +29,8 @@ public class PurchaseBuilder {
         return Purchase.builder()
                 .id(2L)
                 .uuid(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"))
-                .client(ClientBuilder.clientAna2())
-                .purchasedBooks(BookBuilder.bookList())
+                .clientUuid(ClientBuilder.clientAna2().getUuid())
+                .booksUuid(BookBuilder.bookList().stream().map(BookDTO::getUuid).collect(Collectors.toList()))
                 .amount(200.0)
                 .purchaseDate(new Date(10102010))
                 .isCompleted(false)
@@ -36,8 +39,8 @@ public class PurchaseBuilder {
 
     public static PurchaseRecieveDTO purchaseRecieve() {
         return PurchaseRecieveDTO.builder()
-                .client(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"))
-                .purchasedBooks(List.of(
+                .client_uuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"))
+                .books_uuid(List.of(
                         UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"),
                         UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"),
                         UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61")

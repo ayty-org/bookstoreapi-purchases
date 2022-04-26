@@ -1,4 +1,4 @@
-package com.bookstoreapi.bookstoreapi.purchase;
+package br.com.bookstoreapi.purchases.purchase;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,6 @@ import java.util.UUID;
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
     Optional<Purchase> findByUuid(UUID id);
-    boolean existsByPurchasedBooksUuid(UUID id);
-    boolean existsByClientUuid(UUID id);
+    boolean existsByBooksUuid(UUID uuid);
+    boolean existsByClientUuid(UUID uuid);
 }

@@ -1,7 +1,7 @@
-package com.bookstoreapi.bookstoreapi.builders;
+package br.com.bookstoreapi.purchases.builders;
 
-import com.bookstoreapi.bookstoreapi.client.Client;
-import com.bookstoreapi.bookstoreapi.client.ClientRecieveDTO;
+
+import br.com.bookstoreapi.purchases.client.ClientDTO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,9 +9,8 @@ import java.util.UUID;
 
 public class ClientBuilder {
 
-    public static Client clientJenipapo1(){
-        return Client.builder()
-                .id(1L)
+    public static ClientDTO clientJenipapo1(){
+        return ClientDTO.builder()
                 .uuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"))
                 .name("Jenipapo")
                 .age(19)
@@ -21,9 +20,8 @@ public class ClientBuilder {
                 .build();
     }
 
-    public static Client clientAna2(){
-        return Client.builder()
-                .id(2L)
+    public static ClientDTO clientAna2(){
+        return ClientDTO.builder()
                 .uuid(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"))
                 .name("Ana")
                 .age(46)
@@ -33,9 +31,8 @@ public class ClientBuilder {
                 .build();
     }
 
-    public static Client clientPatricia3(){
-        return Client.builder()
-                .id(3L)
+    public static ClientDTO clientPatricia3(){
+        return ClientDTO.builder()
                 .uuid(UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61"))
                 .name("Patricia")
                 .age(25)
@@ -45,27 +42,9 @@ public class ClientBuilder {
                 .build();
     }
 
-    public static ClientRecieveDTO clientInvalid(){
-        return ClientRecieveDTO.builder()
-                .name("a")
-                .age(19)
-                .email("jenipapo@coldmail.com")
-                .telephone("83996438691")
-                .gender("Male")
-                .build();
-    }
-    public static ClientRecieveDTO clientJenipapoRecieve(){
-        return ClientRecieveDTO.builder()
-                .name("Jenipapo")
-                .age(19)
-                .email("jenipapo@coldmail.com")
-                .telephone("83996438691")
-                .gender("Male")
-                .build();
-    }
 
-    public static List<Client> clientList(){
-        List<Client> list = new LinkedList<>();
+    public static List<ClientDTO> clientList(){
+        List<ClientDTO> list = new LinkedList<>();
         list.add(clientJenipapo1());
         list.add(clientAna2());
         list.add(clientPatricia3());

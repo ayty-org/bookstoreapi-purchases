@@ -1,13 +1,11 @@
-package com.bookstoreapi.bookstoreapi.purchase.service;
+package br.com.bookstoreapi.purchases.purchase.service;
 
-import com.bookstoreapi.bookstoreapi.purchase.Purchase;
-import com.bookstoreapi.bookstoreapi.purchase.PurchaseDTO;
-import com.bookstoreapi.bookstoreapi.purchase.PurchaseRepository;
+import br.com.bookstoreapi.purchases.purchase.Purchase;
+import br.com.bookstoreapi.purchases.purchase.PurchaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service

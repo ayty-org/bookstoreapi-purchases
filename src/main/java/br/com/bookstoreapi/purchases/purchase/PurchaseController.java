@@ -1,8 +1,8 @@
-package com.bookstoreapi.bookstoreapi.purchase;
+package br.com.bookstoreapi.purchases.purchase;
 
-import com.bookstoreapi.bookstoreapi.exception.BookOutOfStockException;
-import com.bookstoreapi.bookstoreapi.exception.EntityNotFoundException;
-import com.bookstoreapi.bookstoreapi.purchase.service.*;
+import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
+import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
+import br.com.bookstoreapi.purchases.purchase.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,28 +25,28 @@ public class PurchaseController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PurchaseDTO> list(){
-        return PurchaseDTO.fromAll(getAllPurchaseService.findAll());
+    public List<PurchaseResultDTO> list(){
+        return PurchaseResultDTO.fromAll(getAllPurchaseService.findAll());
     }
 
     @GetMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.OK)
-    public PurchaseDTO find(@PathVariable UUID purchaseId) throws EntityNotFoundException {
-        return PurchaseDTO.from(getPurchaseService.getByUuid(purchaseId));
+    public PurchaseResultDTO find(@PathVariable UUID purchaseId) throws EntityNotFoundException {
+        return PurchaseResultDTO.from(getPurchaseService.getByUuid(purchaseId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PurchaseDTO save(@RequestBody @Valid PurchaseRecieveDTO purchase)
+    public PurchaseResultDTO save(@RequestBody @Valid PurchaseRecieveDTO purchase)
             throws EntityNotFoundException, BookOutOfStockException {
-        return PurchaseDTO.from(postPurchaseService.save(PurchaseRecieveDTO.to(purchase)));
+        return PurchaseResultDTO.from(postPurchaseService.save(PurchaseRecieveDTO.to(purchase)));
     }
 
     @PutMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.OK)
-    public PurchaseDTO update(@PathVariable UUID purchaseId, @RequestBody @Valid PurchaseRecieveDTO purchase)
+    public PurchaseResultDTO update(@PathVariable UUID purchaseId, @RequestBody @Valid PurchaseRecieveDTO purchase)
             throws EntityNotFoundException, BookOutOfStockException{
-        return PurchaseDTO.from(putPurchaseService.update(purchaseId, PurchaseRecieveDTO.to(purchase)));
+        return PurchaseResultDTO.from(putPurchaseService.update(purchaseId, PurchaseRecieveDTO.to(purchase)));
     }
 
     @DeleteMapping("/{purchaseId}")

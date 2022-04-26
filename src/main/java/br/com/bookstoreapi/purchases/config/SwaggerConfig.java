@@ -1,9 +1,8 @@
-package com.bookstoreapi.bookstoreapi.config;
+package br.com.bookstoreapi.purchases.config;
 
-import com.bookstoreapi.bookstoreapi.BookstoreApiJacksonApplication;
+import br.com.bookstoreapi.purchases.BookstorePurchasesApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,7 +22,7 @@ public class SwaggerConfig {
     public Docket swagger(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(BookstoreApiJacksonApplication.class.getName()))
+                .apis(RequestHandlerSelectors.basePackage(BookstorePurchasesApplication.class.getName()))
                 .paths(PathSelectors.any())
                 .build();
     }
