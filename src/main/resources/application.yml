@@ -12,3 +12,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  application:
+    name: purchases
+server:
+  port: 8080
