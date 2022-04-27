@@ -1,70 +1,64 @@
 package br.com.bookstoreapi.purchases.purchase.service;
 
+import br.com.bookstoreapi.purchases.book.BookDTO;
+import br.com.bookstoreapi.purchases.book.BookRepository;
+import br.com.bookstoreapi.purchases.book.BookResultDTO;
+import br.com.bookstoreapi.purchases.client.ClientRepository;
 import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
 import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
 import br.com.bookstoreapi.purchases.purchase.Purchase;
 import br.com.bookstoreapi.purchases.purchase.PurchaseRepository;
+import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class SavePurchaseServiceImpl implements SavePurchaseService {
 
     private final PurchaseRepository purchaseRepository;
-//    private final BookRepository bookRepository;
-//    private final ClientRepository clientRepository;
+    private final BookRepository bookRepository;
+    private final ClientRepository clientRepository;
 
 
     @Override
-    public Purchase save(Purchase purchase) throws EntityNotFoundException, BookOutOfStockException {
-        //purchase.setClient(getClientByUuid(purchase.getClient().getUuid()));
-        //List<Book> books = getBooksByUuid(purchase.getPurchasedBooks());
-        //purchase.setPurchasedBooks(books);
-        //purchase.setAmount(getAmountToPay(purchase.getPurchasedBooks()));
-        purchase.setPurchaseDate(new Date());
-        //this.updateBooksStockToDown(books);
-        purchase.setUuid(UUID.randomUUID());
-        return purchaseRepository.save(purchase);
+    public PurchaseResultDTO save(Purchase purchase) throws EntityNotFoundException, BookOutOfStockException {
+        List<BookDTO> books = new LinkedList<>();
+        for (UUID id : purchase.getBooksUuid()) {
+            books.add(this.bookRepository.getBook(id));
+        }
+        PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
+        purchaseResultDTO.setClientDTO(this.clientRepository.getClient(purchase.getClientUuid()));
+        purchaseResultDTO.setBookDTOS(books);
+        purchaseResultDTO.setAmount(getAmountToPay(books));
+        purchaseResultDTO.setPurchaseDate(new Date());
+        purchaseResultDTO.setUuid(UUID.randomUUID());
+        purchase.setAmount(purchaseResultDTO.getAmount());
+        purchase.setPurchaseDate(purchaseResultDTO.getPurchaseDate());
+        purchase.setUuid(purchaseResultDTO.getUuid());
+        this.purchaseRepository.save(purchase);
+        updateBooksStockToDown(books);
+        return purchaseResultDTO;
     }
 
-//    private List<Book> getBooksByUuid(List<Book> books) throws EntityNotFoundException{
-//        List<Book> bookList= new ArrayList<>();
-//        for(Book book: books){
-//            bookList.add(bookRepository.findByUuid(book.getUuid()).orElseThrow(
-//                    ()-> new EntityNotFoundException(book.getUuid(), Book.class.getSimpleName())));
-//        }
-//        return bookList;
-//    }
-//
-//    private Client getClientByUuid(UUID id) throws EntityNotFoundException {
-//        return clientRepository.findByUuid(id).orElseThrow(
-//                () -> new EntityNotFoundException(id, Client.class.getSimpleName()));
-//    }
-//
-//    private double getAmountToPay(List<Book> books){
-//        double amount = 0.0;
-//        for(Book book: books){
-//            amount += book.getPrice();
-//        }
-//        return amount;
-//    }
-//
-//    private void updateBooksStockToDown(List<Book> books) throws BookOutOfStockException{
-//        List<Book> booksToUpdate = new ArrayList<>();
-//        for(Book book: books){
-//            if(book.getQuantityInStock() > 0){
-//                book.setQuantityInStock(book.getQuantityInStock()-1);
-//                booksToUpdate.add(book);
-//            }else{
-//                throw new BookOutOfStockException(book.getUuid());
-//            }
-//        }
-//        bookRepository.saveAll(booksToUpdate);
-//    }
+    private double getAmountToPay(List<BookDTO> books) {
+        double amount = 0.0;
+        for (BookDTO book : books) {
+            amount += book.getPrice();
+        }
+        return amount;
+    }
+
+    private void updateBooksStockToDown(List<BookDTO> books) throws BookOutOfStockException {
+        for (BookDTO book : books) {
+            if (book.getQuantityInStock() > 0) {
+                book.setQuantityInStock(book.getQuantityInStock() - 1);
+                this.bookRepository.update(book.getUuid(), BookResultDTO.from(book));
+            } else {
+                throw new BookOutOfStockException(book.getUuid());
+            }
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package br.com.bookstoreapi.purchases.exception;
 
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,7 +19,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(BookOutOfStockException.class)
-    public ResponseEntity<?> illegalArgumentHandler(BookOutOfStockException e){
+    public ResponseEntity<?> bookOutOfStock(BookOutOfStockException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
@@ -31,9 +32,9 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg.toString());
     }
 
-    @ExceptionHandler(DeleteException.class)
-    public ResponseEntity<?> illegalArgumentHandler(DeleteException e){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<?> feignException(FeignException e){
+        return ResponseEntity.status(e.status()).body(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

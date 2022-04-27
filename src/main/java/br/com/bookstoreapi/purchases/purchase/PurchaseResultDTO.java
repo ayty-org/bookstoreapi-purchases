@@ -26,8 +26,6 @@ public class PurchaseResultDTO {
     public static PurchaseResultDTO from(Purchase purchase) {
         return PurchaseResultDTO.builder()
                 .uuid(purchase.getUuid())
-                //.client_uuid(ClientDTO.from(purchase.getClient()))
-                //.books_uuid(BookDTO.fromAll(purchase.getPurchasedBooks()))
                 .amount(purchase.getAmount())
                 .purchaseDate(purchase.getPurchaseDate())
                 .isCompleted(purchase.getIsCompleted())

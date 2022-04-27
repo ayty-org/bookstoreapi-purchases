@@ -1,5 +1,7 @@
 package br.com.bookstoreapi.purchases.purchase;
 
+import br.com.bookstoreapi.purchases.book.GetBooksService;
+import br.com.bookstoreapi.purchases.client.GetClientService;
 import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
 import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
 import br.com.bookstoreapi.purchases.purchase.service.*;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,31 +25,45 @@ public class PurchaseController {
     private final UpdatePurchaseService putPurchaseService;
     private final DeletePurchaseService deletePurchaseService;
 
+    private final GetBooksService getBooksService;
+    private final GetClientService getClientService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PurchaseResultDTO> list(){
-        return PurchaseResultDTO.fromAll(getAllPurchaseService.findAll());
+        List<Purchase> purchases = getAllPurchaseService.findAll();
+        List<PurchaseResultDTO> purchaseResultDTOS = new LinkedList<>();
+        for(Purchase purchase: purchases){
+            PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
+            purchaseResultDTO.setClientDTO(this.getClientService.getClientByUuid(purchase.getClientUuid()));
+            purchaseResultDTO.setBookDTOS(this.getBooksService.getBooksByUuid(purchase.getBooksUuid()));
+            purchaseResultDTOS.add(purchaseResultDTO);
+        }
+        return purchaseResultDTOS;
     }
 
     @GetMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.OK)
     public PurchaseResultDTO find(@PathVariable UUID purchaseId) throws EntityNotFoundException {
-        return PurchaseResultDTO.from(getPurchaseService.getByUuid(purchaseId));
+        Purchase purchase = getPurchaseService.getByUuid(purchaseId);
+        PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
+        purchaseResultDTO.setClientDTO(this.getClientService.getClientByUuid(purchase.getClientUuid()));
+        purchaseResultDTO.setBookDTOS(this.getBooksService.getBooksByUuid(purchase.getBooksUuid()));
+        return purchaseResultDTO;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PurchaseResultDTO save(@RequestBody @Valid PurchaseRecieveDTO purchase)
             throws EntityNotFoundException, BookOutOfStockException {
-        return PurchaseResultDTO.from(postPurchaseService.save(PurchaseRecieveDTO.to(purchase)));
+        return postPurchaseService.save(PurchaseRecieveDTO.to(purchase));
     }
 
     @PutMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.OK)
     public PurchaseResultDTO update(@PathVariable UUID purchaseId, @RequestBody @Valid PurchaseRecieveDTO purchase)
             throws EntityNotFoundException, BookOutOfStockException{
-        return PurchaseResultDTO.from(putPurchaseService.update(purchaseId, PurchaseRecieveDTO.to(purchase)));
+        return putPurchaseService.update(purchaseId, PurchaseRecieveDTO.to(purchase));
     }
 
     @DeleteMapping("/{purchaseId}")

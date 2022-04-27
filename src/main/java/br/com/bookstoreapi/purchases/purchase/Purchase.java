@@ -1,7 +1,6 @@
 package br.com.bookstoreapi.purchases.purchase;
 
 import lombok.*;
-import org.springframework.data.annotation.Reference;
 
 import javax.persistence.*;
 import java.io.Serializable;

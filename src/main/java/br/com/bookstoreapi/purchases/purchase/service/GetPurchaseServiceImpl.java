@@ -16,6 +16,7 @@ public class GetPurchaseServiceImpl implements GetPurchaseService{
     private final PurchaseRepository purchaseRepository;
 
 
+
     public Purchase getByUuid(UUID uuid) throws EntityNotFoundException {
         return this.purchaseRepository.findByUuid(uuid)
                 .orElseThrow(()-> new EntityNotFoundException(uuid, Purchase.class.getSimpleName()));

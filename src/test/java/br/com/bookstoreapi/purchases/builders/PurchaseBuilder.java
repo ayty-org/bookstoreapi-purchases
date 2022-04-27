@@ -39,8 +39,8 @@ public class PurchaseBuilder {
 
     public static PurchaseRecieveDTO purchaseRecieve() {
         return PurchaseRecieveDTO.builder()
-                .client_uuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"))
-                .books_uuid(List.of(
+                .clientUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"))
+                .booksUuid(List.of(
                         UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"),
                         UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"),
                         UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61")

@@ -14,17 +14,17 @@ import java.util.UUID;
 public class PurchaseRecieveDTO {
 
     @NotNull(message = "purchase client cannot be null")
-    private UUID client_uuid;
+    private UUID clientUuid;
     @NotNull(message = "a purchase must have at least one book")
-    private List<UUID> books_uuid;
+    private List<UUID> booksUuid;
     @NotNull(message = "purchase status cannot be null")
     private Boolean isCompleted;
 
 
     public static Purchase to(PurchaseRecieveDTO purchase) {
         return Purchase.builder()
-                .clientUuid(purchase.client_uuid)
-                .booksUuid(purchase.getBooks_uuid())
+                .clientUuid(purchase.getClientUuid())
+                .booksUuid(purchase.getBooksUuid())
                 .amount(0.0)
                 .isCompleted(purchase.getIsCompleted())
                 .build();
