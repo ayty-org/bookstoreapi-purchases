@@ -14,5 +14,5 @@ public interface BookRepository {
     BookDTO getBook(@PathVariable UUID bookUuid);
 
     @PutMapping("/{bookUuid}")
-    void update(@PathVariable UUID bookUuid, BookResultDTO bookResultDTO);
+    BookDTO update(@PathVariable UUID bookUuid, BookResultDTO bookResultDTO);
 }

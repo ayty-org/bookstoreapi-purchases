@@ -50,7 +50,12 @@ public class UpdatePurchaseServiceImpl implements UpdatePurchaseService {
     private List<BookDTO> getBooksByUuid(List<UUID> books) throws EntityNotFoundException {
         List<BookDTO> bookList = new ArrayList<>();
         for (UUID uuid : books) {
-            bookList.add(bookRepository.getBook(uuid));
+            BookDTO bookDTO = bookRepository.getBook(uuid);
+            if(bookDTO != null){
+                bookList.add(bookDTO);
+            }else{
+                throw new EntityNotFoundException(uuid, "Book");
+            }
         }
         return bookList;
     }

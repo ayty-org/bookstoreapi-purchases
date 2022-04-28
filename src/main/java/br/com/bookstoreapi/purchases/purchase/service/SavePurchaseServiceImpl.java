@@ -25,10 +25,8 @@ public class SavePurchaseServiceImpl implements SavePurchaseService {
 
     @Override
     public PurchaseResultDTO save(Purchase purchase) throws EntityNotFoundException, BookOutOfStockException {
-        List<BookDTO> books = new LinkedList<>();
-        for (UUID id : purchase.getBooksUuid()) {
-            books.add(this.bookRepository.getBook(id));
-        }
+        List<BookDTO> books = getBooksByUuid(purchase.getBooksUuid());
+
         PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
         purchaseResultDTO.setClientDTO(this.clientRepository.getClient(purchase.getClientUuid()));
         purchaseResultDTO.setBookDTOS(books);
@@ -49,6 +47,19 @@ public class SavePurchaseServiceImpl implements SavePurchaseService {
             amount += book.getPrice();
         }
         return amount;
+    }
+
+    private List<BookDTO> getBooksByUuid(List<UUID> books) throws EntityNotFoundException {
+        List<BookDTO> bookList = new ArrayList<>();
+        for (UUID uuid : books) {
+            BookDTO bookDTO = bookRepository.getBook(uuid);
+            if(bookDTO != null){
+                bookList.add(bookDTO);
+            }else{
+                throw new EntityNotFoundException(uuid, "Book");
+            }
+        }
+        return bookList;
     }
 
     private void updateBooksStockToDown(List<BookDTO> books) throws BookOutOfStockException {

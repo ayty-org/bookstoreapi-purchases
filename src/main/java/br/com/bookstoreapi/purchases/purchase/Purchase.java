@@ -1,6 +1,7 @@
 package br.com.bookstoreapi.purchases.purchase;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ public class Purchase implements Serializable {
 
     private UUID clientUuid;
 
-    @ElementCollection()
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<UUID> booksUuid;
 
     private Double amount;

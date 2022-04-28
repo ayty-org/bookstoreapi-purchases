@@ -16,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class DeletePurchaseServiceImplTest {
+public class
+DeletePurchaseServiceImplTest {
 
     private DeletePurchaseServiceImpl deletePurchaseService;
     @Mock
