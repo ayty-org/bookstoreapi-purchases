@@ -28,6 +28,10 @@ public class PurchaseController {
     private final GetBooksService getBooksService;
     private final GetClientService getClientService;
 
+    private final ExistPurchaseByClientUuid existPurchaseByClientUuid;
+    private final ExistPurchaseByBookUuid existPurchaseByBookUuid;
+
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PurchaseResultDTO> list(){
@@ -70,5 +74,17 @@ public class PurchaseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID purchaseId) throws EntityNotFoundException{
         deletePurchaseService.delete(purchaseId);
+    }
+
+    @GetMapping("/existByClient/{uuid}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean existByClient(@PathVariable UUID uuid){
+        return existPurchaseByClientUuid.existsByClientUuid(uuid);
+    }
+
+    @GetMapping("/existByBook/{uuid}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean existByBook(@PathVariable UUID uuid){
+        return existPurchaseByBookUuid.existsByBookUuid(uuid);
     }
 }
