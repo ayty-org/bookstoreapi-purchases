@@ -3,6 +3,7 @@ package br.com.bookstoreapi.purchases.purchase.service;
 import br.com.bookstoreapi.purchases.book.BookDTO;
 import br.com.bookstoreapi.purchases.book.BookRepository;
 import br.com.bookstoreapi.purchases.book.BookResultDTO;
+import br.com.bookstoreapi.purchases.client.ClientDTO;
 import br.com.bookstoreapi.purchases.client.ClientRepository;
 import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
 import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
@@ -30,9 +31,10 @@ public class UpdatePurchaseServiceImpl implements UpdatePurchaseService {
             List<BookDTO> booksFromOld = getBooksByUuid(purchaseSaved.get().getBooksUuid());
             List<BookDTO> books = getBooksByUuid(purchase.getBooksUuid());
             PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
-            purchaseResultDTO.setClientDTO(this.clientRepository.getClient(purchase.getClientUuid()));
+            purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid()));
             purchaseResultDTO.setBookDTOS(books);
             purchaseResultDTO.setAmount(getAmountToPay(books));
+            purchaseResultDTO.setUuid(uuid);
             purchase.setId(purchaseSaved.get().getId());
             purchase.setUuid(uuid);
             purchaseRepository.save(purchase);
@@ -45,6 +47,14 @@ public class UpdatePurchaseServiceImpl implements UpdatePurchaseService {
     private void updateBooksStock(List<BookDTO> updated, List<BookDTO> old) throws BookOutOfStockException {
         this.updateBooksStockToUp(old);
         this.updateBooksStockToDown(updated);
+    }
+
+    private ClientDTO getClientByUuid(UUID id) throws EntityNotFoundException{
+        ClientDTO clientDTO = clientRepository.getClient(id);
+        if(clientDTO != null){
+            return clientDTO;
+        }
+        throw new EntityNotFoundException(id, "Client");
     }
 
     private List<BookDTO> getBooksByUuid(List<UUID> books) throws EntityNotFoundException {
