@@ -1,4 +1,4 @@
-package br.com.bookstoreapi.purchases.purchase;
+package br.com.bookstoreapi.purchases.purchase.v1;
 
 import br.com.bookstoreapi.purchases.BookstorePurchasesApplicationTests;
 import br.com.bookstoreapi.purchases.book.BookRepository;
@@ -10,14 +10,14 @@ import br.com.bookstoreapi.purchases.builders.PurchaseBuilder;
 import br.com.bookstoreapi.purchases.client.ClientRepository;
 import br.com.bookstoreapi.purchases.client.GetClientService;
 import br.com.bookstoreapi.purchases.client.GetClientServiceImpl;
-import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
+import br.com.bookstoreapi.purchases.purchase.PurchaseRecieveDTO;
 import br.com.bookstoreapi.purchases.purchase.service.*;
+import br.com.bookstoreapi.purchases.purchase.v1.PurchaseController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 

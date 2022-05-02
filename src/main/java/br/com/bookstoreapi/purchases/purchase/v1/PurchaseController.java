@@ -1,9 +1,12 @@
-package br.com.bookstoreapi.purchases.purchase;
+package br.com.bookstoreapi.purchases.purchase.v1;
 
 import br.com.bookstoreapi.purchases.book.GetBooksService;
 import br.com.bookstoreapi.purchases.client.GetClientService;
 import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
 import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
+import br.com.bookstoreapi.purchases.purchase.Purchase;
+import br.com.bookstoreapi.purchases.purchase.PurchaseRecieveDTO;
+import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 import br.com.bookstoreapi.purchases.purchase.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

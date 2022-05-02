@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.UUID;
 
-@FeignClient(name = "books", url = "http://localhost:8082/books")
+@FeignClient("books-api")
 public interface BookRepository {
 
-    @GetMapping("/{bookUuid}")
+    @GetMapping("/books/{bookUuid}")
     BookDTO getBook(@PathVariable UUID bookUuid);
 
-    @PutMapping("/{bookUuid}")
+    @PutMapping("/books/{bookUuid}")
     BookDTO update(@PathVariable UUID bookUuid, BookResultDTO bookResultDTO);
 }

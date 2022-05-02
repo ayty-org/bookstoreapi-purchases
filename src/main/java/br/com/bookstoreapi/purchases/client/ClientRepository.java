@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-@FeignClient(name = "clients", url = "http://localhost:8081/clients")
+@FeignClient("clients-api")
 public interface ClientRepository {
 
-    @GetMapping("/{clientUuid}")
+    @GetMapping("clients/{clientUuid}")
     ClientDTO getClient(@PathVariable UUID clientUuid);
 }
