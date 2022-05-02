@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@RequestMapping("/purchases")
+@RequestMapping("/v1/purchases")
 @RestController
 public class PurchaseController {
 

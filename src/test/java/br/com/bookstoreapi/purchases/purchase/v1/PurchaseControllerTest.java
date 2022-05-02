@@ -63,7 +63,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
     private ClientRepository clientRepository;
 
 
-    private final String url = "/purchases";
+    private final String url = "/v1/purchases";
     ObjectMapper mapper = new ObjectMapper();
 
 
