@@ -10,9 +10,9 @@ import java.util.UUID;
 @FeignClient("books-api")
 public interface BookRepository {
 
-    @GetMapping("/books/{bookUuid}")
+    @GetMapping("/v1/books/{bookUuid}")
     BookDTO getBook(@PathVariable UUID bookUuid);
 
-    @PutMapping("/books/{bookUuid}")
+    @PutMapping("/v1/books/{bookUuid}")
     BookDTO update(@PathVariable UUID bookUuid, BookResultDTO bookResultDTO);
 }
