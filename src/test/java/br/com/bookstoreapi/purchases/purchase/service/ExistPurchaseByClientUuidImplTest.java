@@ -17,14 +17,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class ExistPurchaseByClientUuidImplTest {
 
-    private ExistPurchaseByClientUuidImpl existPurchaseByClientUuid;
+    private ExistPurchaseByClientService existPurchaseByClientUuid;
     @Mock
     private PurchaseRepository repository;
 
 
     @BeforeEach
     void setUp(){
-        this.existPurchaseByClientUuid = new ExistPurchaseByClientUuidImpl(repository);
+        this.existPurchaseByClientUuid = new ExistPurchaseByClientServiceImpl(repository);
     }
 
 

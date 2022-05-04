@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ExistPurchaseByClientUuidImpl implements ExistPurchaseByClientUuid{
+public class ExistPurchaseByClientServiceImpl implements ExistPurchaseByClientService{
 
     private final PurchaseRepository repository;
 

@@ -11,17 +11,22 @@ import br.com.bookstoreapi.purchases.purchase.Purchase;
 import br.com.bookstoreapi.purchases.purchase.PurchaseRepository;
 import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@RequiredArgsConstructor
 @Service
-public class UpdatePurchaseServiceImpl implements UpdatePurchaseService {
+public class UpdatePurchaseServiceImpl extends UpdateBookStockService implements UpdatePurchaseService {
 
     private final PurchaseRepository purchaseRepository;
-    private final BookRepository bookRepository;
-    private final ClientRepository clientRepository;
+
+
+    public UpdatePurchaseServiceImpl(@Autowired PurchaseRepository purchaseRepository,
+                                     BookRepository bookRepository, ClientRepository clientRepository) {
+        super(bookRepository, clientRepository);
+        this.purchaseRepository = purchaseRepository;
+    }
 
 
     @Override
@@ -49,28 +54,6 @@ public class UpdatePurchaseServiceImpl implements UpdatePurchaseService {
         this.updateBooksStockToDown(updated);
     }
 
-    private ClientDTO getClientByUuid(UUID id) throws EntityNotFoundException{
-        ClientDTO clientDTO = clientRepository.getClient(id);
-        if(clientDTO != null){
-            return clientDTO;
-        }
-        throw new EntityNotFoundException(id, "Client");
-    }
-
-    private List<BookDTO> getBooksByUuid(List<UUID> books) throws EntityNotFoundException {
-        List<BookDTO> bookList = new ArrayList<>();
-        for (UUID uuid : books) {
-            BookDTO bookDTO = bookRepository.getBook(uuid);
-            if(bookDTO != null){
-                bookList.add(bookDTO);
-            }else{
-                throw new EntityNotFoundException(uuid, "Book");
-            }
-        }
-        return bookList;
-    }
-
-
     private double getAmountToPay(List<BookDTO> books) {
         double amount = 0.0;
         for (BookDTO book : books) {
@@ -79,21 +62,6 @@ public class UpdatePurchaseServiceImpl implements UpdatePurchaseService {
         return amount;
     }
 
-    private void updateBooksStockToDown(List<BookDTO> books) throws BookOutOfStockException {
-        for (BookDTO book : books) {
-            if (book.getQuantityInStock() > 0) {
-                book.setQuantityInStock(book.getQuantityInStock() - 1);
-                this.bookRepository.update(book.getUuid(), BookResultDTO.from(book));
-            } else {
-                throw new BookOutOfStockException(book.getUuid());
-            }
-        }
-    }
 
-    private void updateBooksStockToUp(List<BookDTO> books) {
-        for (BookDTO book : books) {
-            book.setQuantityInStock(book.getQuantityInStock() + 1);
-            this.bookRepository.update(book.getUuid(), BookResultDTO.from(book));
-        }
-    }
+
 }

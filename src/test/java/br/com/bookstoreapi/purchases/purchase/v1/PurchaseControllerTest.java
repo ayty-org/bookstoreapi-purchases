@@ -2,17 +2,12 @@ package br.com.bookstoreapi.purchases.purchase.v1;
 
 import br.com.bookstoreapi.purchases.BookstorePurchasesApplicationTests;
 import br.com.bookstoreapi.purchases.book.BookRepository;
-import br.com.bookstoreapi.purchases.book.GetBooksService;
-import br.com.bookstoreapi.purchases.book.GetBooksServiceImpl;
 import br.com.bookstoreapi.purchases.builders.BookBuilder;
 import br.com.bookstoreapi.purchases.builders.ClientBuilder;
 import br.com.bookstoreapi.purchases.builders.PurchaseBuilder;
 import br.com.bookstoreapi.purchases.client.ClientRepository;
-import br.com.bookstoreapi.purchases.client.GetClientService;
-import br.com.bookstoreapi.purchases.client.GetClientServiceImpl;
 import br.com.bookstoreapi.purchases.purchase.PurchaseRecieveDTO;
 import br.com.bookstoreapi.purchases.purchase.service.*;
-import br.com.bookstoreapi.purchases.purchase.v1.PurchaseController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,9 +48,9 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
     @Autowired
     private DeletePurchaseService deletePurchaseService;
     @Autowired
-    private ExistPurchaseByClientUuid existPurchaseByClientUuid;
+    private ExistPurchaseByClientService existPurchaseByClientUuid;
     @Autowired
-    private ExistPurchaseByBookUuid existPurchaseByBookUuid;
+    private ExistPurchaseByBookService existPurchaseByBookUuid;
 
     @MockBean
     private BookRepository bookRepository;
@@ -69,11 +64,10 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
 
     @BeforeEach
     void setUp() {
-        GetBooksService getBooksService = new GetBooksServiceImpl(bookRepository);
-        GetClientService getClientService = new GetClientServiceImpl(clientRepository);
+
 
         PurchaseController purchaseController = new PurchaseController(getAllPurchaseService, getPurchaseService, savePurchaseService
-                , updatePurchaseService, deletePurchaseService, getBooksService, getClientService, existPurchaseByClientUuid, existPurchaseByBookUuid);
+                , updatePurchaseService, deletePurchaseService, existPurchaseByClientUuid, existPurchaseByBookUuid);
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(purchaseController).build();
     }
@@ -150,6 +144,13 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
         when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
                 .thenReturn(ClientBuilder.clientAna2());
 
+        when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+                .thenReturn(BookBuilder.book1L());
+        when(bookRepository.getBook(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+                .thenReturn(BookBuilder.book2L());
+        when(bookRepository.getBook(UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61")))
+                .thenReturn(BookBuilder.book3L());
+
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -168,6 +169,13 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
     @Test
     void getTest() throws Exception {
         when(clientRepository.getClient(any())).thenReturn(ClientBuilder.clientJenipapo1());
+
+        when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+                .thenReturn(BookBuilder.book1L());
+        when(bookRepository.getBook(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+                .thenReturn(BookBuilder.book2L());
+        when(bookRepository.getBook(UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61")))
+                .thenReturn(BookBuilder.book3L());
 
         mockMvc.perform(get(url + "/12d51c0a-a843-46fc-8447-5fda559ec69b"))
                 .andExpect(status().isOk())

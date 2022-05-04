@@ -17,14 +17,14 @@ import static org.mockito.Mockito.when;
 class ExistPurchaseByBookUuidImplTest {
 
 
-    private ExistPurchaseByBookUuidImpl existPurchaseByBookUuid;
+    private ExistPurchaseByBookService existPurchaseByBookUuid;
     @Mock
     private  PurchaseRepository repository;
 
 
     @BeforeEach
     void setUp(){
-        this.existPurchaseByBookUuid = new ExistPurchaseByBookUuidImpl(repository);
+        this.existPurchaseByBookUuid = new ExistPurchaseByBookServiceImpl(repository);
     }
 
 

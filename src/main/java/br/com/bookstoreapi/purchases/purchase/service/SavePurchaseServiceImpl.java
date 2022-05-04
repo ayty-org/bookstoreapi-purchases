@@ -2,26 +2,30 @@ package br.com.bookstoreapi.purchases.purchase.service;
 
 import br.com.bookstoreapi.purchases.book.BookDTO;
 import br.com.bookstoreapi.purchases.book.BookRepository;
-import br.com.bookstoreapi.purchases.book.BookResultDTO;
-import br.com.bookstoreapi.purchases.client.ClientDTO;
 import br.com.bookstoreapi.purchases.client.ClientRepository;
 import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
 import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
 import br.com.bookstoreapi.purchases.purchase.Purchase;
 import br.com.bookstoreapi.purchases.purchase.PurchaseRepository;
 import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
-public class SavePurchaseServiceImpl implements SavePurchaseService {
+public class SavePurchaseServiceImpl extends UpdateBookStockService implements SavePurchaseService {
 
     private final PurchaseRepository purchaseRepository;
-    private final BookRepository bookRepository;
-    private final ClientRepository clientRepository;
+
+
+    public SavePurchaseServiceImpl(@Autowired PurchaseRepository purchaseRepository,
+                                   BookRepository bookRepository, ClientRepository clientRepository) {
+        super(bookRepository, clientRepository);
+        this.purchaseRepository = purchaseRepository;
+    }
 
 
     @Override
@@ -48,37 +52,5 @@ public class SavePurchaseServiceImpl implements SavePurchaseService {
             amount += book.getPrice();
         }
         return amount;
-    }
-
-    private ClientDTO getClientByUuid(UUID id) throws EntityNotFoundException{
-        ClientDTO clientDTO = clientRepository.getClient(id);
-        if(clientDTO != null){
-            return clientDTO;
-        }
-        throw new EntityNotFoundException(id, "Client");
-    }
-
-    private List<BookDTO> getBooksByUuid(List<UUID> books) throws EntityNotFoundException {
-        List<BookDTO> bookList = new ArrayList<>();
-        for (UUID uuid : books) {
-            BookDTO bookDTO = bookRepository.getBook(uuid);
-            if (bookDTO != null) {
-                bookList.add(bookDTO);
-            } else {
-                throw new EntityNotFoundException(uuid, "Book");
-            }
-        }
-        return bookList;
-    }
-
-    private void updateBooksStockToDown(List<BookDTO> books) throws BookOutOfStockException {
-        for (BookDTO book : books) {
-            if (book.getQuantityInStock() > 0) {
-                book.setQuantityInStock(book.getQuantityInStock() - 1);
-                this.bookRepository.update(book.getUuid(), BookResultDTO.from(book));
-            } else {
-                throw new BookOutOfStockException(book.getUuid());
-            }
-        }
     }
 }
