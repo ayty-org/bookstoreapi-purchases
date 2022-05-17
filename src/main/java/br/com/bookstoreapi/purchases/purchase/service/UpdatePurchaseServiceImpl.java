@@ -37,6 +37,7 @@ public class UpdatePurchaseServiceImpl extends UpdateBookStockService implements
             purchase.setId(purchaseSaved.get().getId());
             purchase.setUuid(uuid);
             purchase.setPurchaseDate(purchaseSaved.get().getPurchaseDate());
+            purchase.setAmount(getAmountToPay(books));
             PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
             purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid()));
             purchaseResultDTO.setBookDTOS(books);
