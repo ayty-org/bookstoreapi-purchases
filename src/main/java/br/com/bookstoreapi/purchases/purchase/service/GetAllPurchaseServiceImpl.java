@@ -8,6 +8,7 @@ import br.com.bookstoreapi.purchases.purchase.PurchaseRepository;
 import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -26,9 +27,9 @@ public class GetAllPurchaseServiceImpl extends GetFieldsByUuidService implements
 
 
     @Override
-    public List<PurchaseResultDTO> findAll() throws EntityNotFoundException {
+    public List<PurchaseResultDTO> findAll(Pageable pageable) throws EntityNotFoundException {
         List<PurchaseResultDTO> purchaseResultDTOS = new LinkedList<>();
-        for(Purchase purchase: purchaseRepository.findAll()){
+        for(Purchase purchase: purchaseRepository.findAll(pageable).toList()){
             PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
             purchaseResultDTO.setClientDTO(this.getClientByUuid(purchase.getClientUuid()));
             purchaseResultDTO.setBookDTOS(this.getBooksByUuid(purchase.getBooksUuid()));

@@ -6,6 +6,7 @@ import br.com.bookstoreapi.purchases.purchase.PurchaseRecieveDTO;
 import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 import br.com.bookstoreapi.purchases.purchase.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,8 @@ public class PurchaseController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PurchaseResultDTO> list() throws EntityNotFoundException{
-        return getAllPurchaseService.findAll();
+    public List<PurchaseResultDTO> list(Pageable pageable) throws EntityNotFoundException{
+        return getAllPurchaseService.findAll(pageable);
     }
 
     @GetMapping("/{purchaseId}")

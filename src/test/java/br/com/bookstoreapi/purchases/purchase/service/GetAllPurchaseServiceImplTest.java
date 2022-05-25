@@ -11,6 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
@@ -40,7 +43,9 @@ public class GetAllPurchaseServiceImplTest {
 
     @Test
     void findAllTest() throws Exception{
-        when(repository.findAll()).thenReturn(PurchaseBuilder.purchaseList());
+        Pageable page = PageRequest.of(0,3);
+
+        when(repository.findAll(page)).thenReturn(new PageImpl<>(PurchaseBuilder.purchaseList()));
 
         when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
                 .thenReturn(ClientBuilder.clientJenipapo1());
@@ -53,8 +58,7 @@ public class GetAllPurchaseServiceImplTest {
                 .thenReturn(BookBuilder.book2L());
         when(bookRepository.getBook(UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61")))
                 .thenReturn(BookBuilder.book3L());
-
-        List<PurchaseResultDTO> purchases = getAllPurchaseService.findAll();
+        List<PurchaseResultDTO> purchases = getAllPurchaseService.findAll(page);
 
         assertThat(2, is(purchases.size()));
 
