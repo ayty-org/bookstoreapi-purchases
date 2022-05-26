@@ -51,6 +51,8 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
     private ExistPurchaseByClientService existPurchaseByClientUuid;
     @Autowired
     private ExistPurchaseByBookService existPurchaseByBookUuid;
+    @Autowired
+    private TotalElementsService totalElementsService;
 
     @MockBean
     private BookRepository bookRepository;
@@ -67,7 +69,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
 
 
         PurchaseController purchaseController = new PurchaseController(getAllPurchaseService, getPurchaseService, savePurchaseService
-                , updatePurchaseService, deletePurchaseService, existPurchaseByClientUuid, existPurchaseByBookUuid);
+                , updatePurchaseService, deletePurchaseService, existPurchaseByClientUuid, existPurchaseByBookUuid, totalElementsService);
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(purchaseController).build();
     }

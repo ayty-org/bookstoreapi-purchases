@@ -11,6 +11,7 @@ import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,8 @@ public class SavePurchaseServiceImpl extends UpdateBookStockService implements S
         purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid()));
         purchaseResultDTO.setBookDTOS(books);
         purchaseResultDTO.setAmount(getAmountToPay(books));
+
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         purchaseResultDTO.setPurchaseDate(new Date());
         purchaseResultDTO.setUuid(UUID.randomUUID());
         purchase.setAmount(purchaseResultDTO.getAmount());

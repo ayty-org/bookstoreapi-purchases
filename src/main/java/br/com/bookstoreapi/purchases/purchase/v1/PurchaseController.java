@@ -28,11 +28,19 @@ public class PurchaseController {
     private final ExistPurchaseByClientService existPurchaseByClientUuid;
     private final ExistPurchaseByBookService existPurchaseByBookUuid;
 
+    private final TotalElementsService totalElementsService;
+
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PurchaseResultDTO> list(Pageable pageable) throws EntityNotFoundException{
         return getAllPurchaseService.findAll(pageable);
+    }
+
+    @GetMapping("/elements/total")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getTotal(){
+        return totalElementsService.getTotalElements();
     }
 
     @GetMapping("/{purchaseId}")
