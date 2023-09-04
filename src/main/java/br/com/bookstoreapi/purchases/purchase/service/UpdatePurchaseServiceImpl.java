@@ -29,7 +29,7 @@ public class UpdatePurchaseServiceImpl extends UpdateBookStockService implements
 
 
     @Override
-    public PurchaseResultDTO update(UUID uuid, Purchase purchase) throws EntityNotFoundException, BookOutOfStockException {
+    public PurchaseResultDTO update(UUID uuid, Purchase purchase,String bearerToken) throws EntityNotFoundException, BookOutOfStockException {
         Optional<Purchase> purchaseSaved = purchaseRepository.findByUuid(uuid);
         if (purchaseSaved.isPresent()) {
             List<BookDTO> booksFromOld = getBooksByUuid(purchaseSaved.get().getBooksUuid());
@@ -39,7 +39,7 @@ public class UpdatePurchaseServiceImpl extends UpdateBookStockService implements
             purchase.setPurchaseDate(purchaseSaved.get().getPurchaseDate());
             purchase.setAmount(getAmountToPay(books));
             PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
-            purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid()));
+            purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid(), bearerToken));
             purchaseResultDTO.setBookDTOS(books);
             purchaseResultDTO.setAmount(getAmountToPay(books));
             purchaseResultDTO.setUuid(uuid);

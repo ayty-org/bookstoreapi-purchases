@@ -45,7 +45,7 @@ public class GetPurchaseServiceImplTest {
         when(repository.findByUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
                 .thenReturn(Optional.of(PurchaseBuilder.purchase1L()));
 
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -56,7 +56,7 @@ public class GetPurchaseServiceImplTest {
                 .thenReturn(BookBuilder.book3L());
 
         PurchaseResultDTO purchase = getPurchaseService.getByUuid(
-                UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"));
+                UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null);
 
         verify(repository, times(1)).findByUuid(any());
         assertThat(purchase.getUuid().toString(), is("12d51c0a-a843-46fc-8447-5fda559ec69b"));
@@ -73,6 +73,6 @@ public class GetPurchaseServiceImplTest {
         when(repository.findByUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
                 .thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class,
-                () -> getPurchaseService.getByUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")));
+                () -> getPurchaseService.getByUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null));
     }
 }

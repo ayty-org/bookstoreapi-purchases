@@ -8,5 +8,5 @@ import java.util.UUID;
 @FunctionalInterface
 public interface GetPurchaseService {
 
-    PurchaseResultDTO getByUuid(UUID id) throws EntityNotFoundException;
+    PurchaseResultDTO getByUuid(UUID id, String bearerToken) throws EntityNotFoundException;
 }

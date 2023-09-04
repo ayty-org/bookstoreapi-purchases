@@ -25,12 +25,12 @@ public class GetPurchaseServiceImpl extends GetFieldsByUuidService implements Ge
     }
 
 
-    public PurchaseResultDTO getByUuid(UUID uuid) throws EntityNotFoundException {
+    public PurchaseResultDTO getByUuid(UUID uuid, String bearerToken) throws EntityNotFoundException {
         Purchase purchase = this.purchaseRepository.findByUuid(uuid)
                 .orElseThrow(()-> new EntityNotFoundException(uuid, Purchase.class.getSimpleName()));
 
         PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
-        purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid()));
+        purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid(), bearerToken));
         purchaseResultDTO.setBookDTOS(getBooksByUuid(purchase.getBooksUuid()));
         return purchaseResultDTO;
     }

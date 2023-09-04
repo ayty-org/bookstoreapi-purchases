@@ -17,7 +17,7 @@ public class DeletePurchaseServiceImpl implements DeletePurchaseService {
 
 
     @Override
-    public void delete(UUID id) throws EntityNotFoundException {
+    public void delete(UUID id, String bearerToken) throws EntityNotFoundException {
         Optional<Purchase> purchaseOptional = purchaseRepository.findByUuid(id);
         if(purchaseOptional.isPresent()){
             purchaseRepository.delete(purchaseOptional.get());

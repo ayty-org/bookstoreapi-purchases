@@ -43,7 +43,7 @@ class UpdatePurchaseServiceImplTest {
 
     @Test
     void updateTest() throws Exception{
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -60,7 +60,7 @@ class UpdatePurchaseServiceImplTest {
 
         PurchaseResultDTO purchase = updatePurchaseService.update(
                 UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"),
-                PurchaseBuilder.purchase1L());
+                PurchaseBuilder.purchase1L(), null);
 
         verify(repository, times(1)).save(any());
 
@@ -77,7 +77,7 @@ class UpdatePurchaseServiceImplTest {
                 .thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class,
                 () -> updatePurchaseService.update(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"),
-                        PurchaseBuilder.purchase2L()));
+                        PurchaseBuilder.purchase2L(), null));
         verify(repository, never()).save(any());
 
     }
@@ -91,13 +91,13 @@ class UpdatePurchaseServiceImplTest {
 
         assertThrows(EntityNotFoundException.class,
                 () -> updatePurchaseService.update(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"),
-                        PurchaseBuilder.purchase2L()));
+                        PurchaseBuilder.purchase2L(), null));
         verify(repository, never()).save(any());
     }
 
     @Test
     void updateWhenBookDontExistTest(){
-        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -110,7 +110,7 @@ class UpdatePurchaseServiceImplTest {
 
         assertThrows(EntityNotFoundException.class,
                 ()->updatePurchaseService.update(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"),
-                        PurchaseBuilder.purchase2L()));
+                        PurchaseBuilder.purchase2L(), null));
         verify(repository, never()).save(any());
     }
 }

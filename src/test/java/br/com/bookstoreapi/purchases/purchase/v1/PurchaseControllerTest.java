@@ -79,7 +79,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
         String json = mapper.writeValueAsString(PurchaseBuilder.purchaseRecieve());
 
 
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(any()))
@@ -114,7 +114,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
         p.setClientUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ecabc"));
         String json = mapper.writeValueAsString(p);
 
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(null);
         when(bookRepository.getBook(any())).thenReturn(BookBuilder.book1L());
 
@@ -140,10 +140,10 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
 
     @Test
     void getAllTest() throws Exception {
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
-        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"), null))
                 .thenReturn(ClientBuilder.clientAna2());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -170,7 +170,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
 
     @Test
     void getTest() throws Exception {
-        when(clientRepository.getClient(any())).thenReturn(ClientBuilder.clientJenipapo1());
+        when(clientRepository.getClient(any(), null)).thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
                 .thenReturn(BookBuilder.book1L());
@@ -197,7 +197,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
 
     @Test
     void updateTest() throws Exception {
-        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"), null))
                 .thenReturn(ClientBuilder.clientAna2());
 
         when(bookRepository.getBook(any()))
@@ -241,7 +241,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
 
         String json = mapper.writeValueAsString(purchase);
 
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(null);
         when(bookRepository.getBook(any())).thenReturn(BookBuilder.book1L());
 
@@ -256,7 +256,7 @@ public class PurchaseControllerTest extends BookstorePurchasesApplicationTests {
     void updateWhenBookDontExist() throws Exception {
         PurchaseRecieveDTO purchase = PurchaseBuilder.purchaseRecieve();
 
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientAna2());
 
         String json = mapper.writeValueAsString(purchase);

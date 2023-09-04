@@ -10,5 +10,5 @@ import java.util.UUID;
 @FunctionalInterface
 public interface UpdatePurchaseService {
 
-    PurchaseResultDTO update(UUID id, Purchase purchase)throws EntityNotFoundException, BookOutOfStockException;
+    PurchaseResultDTO update(UUID id, Purchase purchase, String bearerToken)throws EntityNotFoundException, BookOutOfStockException;
 }

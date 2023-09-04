@@ -8,5 +8,5 @@ import br.com.bookstoreapi.purchases.purchase.PurchaseResultDTO;
 @FunctionalInterface
 public interface SavePurchaseService {
 
-    PurchaseResultDTO save(Purchase purchase) throws EntityNotFoundException, BookOutOfStockException;
+    PurchaseResultDTO save(Purchase purchase, String bearerToken) throws EntityNotFoundException, BookOutOfStockException;
 }

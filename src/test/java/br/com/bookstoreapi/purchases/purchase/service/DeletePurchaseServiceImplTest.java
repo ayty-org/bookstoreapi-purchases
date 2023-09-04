@@ -34,7 +34,7 @@ DeletePurchaseServiceImplTest {
         when(repository.findByUuid(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
                 .thenReturn(Optional.of(PurchaseBuilder.purchase1L()));
 
-        deletePurchaseService.delete(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"));
+        deletePurchaseService.delete(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null);
 
         verify(repository, times(1)).findByUuid(any());
         verify(repository, times(1)).delete(any());
@@ -43,7 +43,7 @@ DeletePurchaseServiceImplTest {
     @Test
     void deleteWhenIdDontExist() {
         assertThrows(EntityNotFoundException.class,
-                () -> deletePurchaseService.delete(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")));
+                () -> deletePurchaseService.delete(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null));
         verify(repository, never()).delete(any());
     }
 }

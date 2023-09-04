@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.ws.rs.HeaderParam;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,8 +34,8 @@ public class PurchaseController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PurchaseResultDTO> list(Pageable pageable) throws EntityNotFoundException{
-        return getAllPurchaseService.findAll(pageable);
+    public List<PurchaseResultDTO> list(Pageable pageable, @RequestHeader("Authorization") String bearerToken) throws EntityNotFoundException{
+        return getAllPurchaseService.findAll(pageable, bearerToken);
     }
 
     @GetMapping("/elements/total")
@@ -45,28 +46,28 @@ public class PurchaseController {
 
     @GetMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.OK)
-    public PurchaseResultDTO find(@PathVariable UUID purchaseId) throws EntityNotFoundException {
-        return getPurchaseService.getByUuid(purchaseId);
+    public PurchaseResultDTO find(@PathVariable UUID purchaseId, @RequestHeader("Authorization") String bearerToken) throws EntityNotFoundException {
+        return getPurchaseService.getByUuid(purchaseId, bearerToken);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PurchaseResultDTO save(@RequestBody @Valid PurchaseRecieveDTO purchase)
+    public PurchaseResultDTO save(@RequestBody @Valid PurchaseRecieveDTO purchase, @RequestHeader("Authorization") String bearerToken)
             throws EntityNotFoundException, BookOutOfStockException {
-        return postPurchaseService.save(PurchaseRecieveDTO.to(purchase));
+        return postPurchaseService.save(PurchaseRecieveDTO.to(purchase), bearerToken);
     }
 
     @PutMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.OK)
-    public PurchaseResultDTO update(@PathVariable UUID purchaseId, @RequestBody @Valid PurchaseRecieveDTO purchase)
+    public PurchaseResultDTO update(@PathVariable UUID purchaseId, @RequestBody @Valid PurchaseRecieveDTO purchase, @RequestHeader("Authorization") String bearerToken)
             throws EntityNotFoundException, BookOutOfStockException{
-        return putPurchaseService.update(purchaseId, PurchaseRecieveDTO.to(purchase));
+        return putPurchaseService.update(purchaseId, PurchaseRecieveDTO.to(purchase), bearerToken);
     }
 
     @DeleteMapping("/{purchaseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable UUID purchaseId) throws EntityNotFoundException{
-        deletePurchaseService.delete(purchaseId);
+    public void delete(@PathVariable UUID purchaseId, @RequestHeader("Authorization") String bearerToken) throws EntityNotFoundException{
+        deletePurchaseService.delete(purchaseId, bearerToken);
     }
 
     @GetMapping("/existByClient/{uuid}")

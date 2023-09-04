@@ -47,9 +47,9 @@ public class GetAllPurchaseServiceImplTest {
 
         when(repository.findAll(page)).thenReturn(new PageImpl<>(PurchaseBuilder.purchaseList()));
 
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
-        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"), null))
                 .thenReturn(ClientBuilder.clientAna2());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -58,7 +58,7 @@ public class GetAllPurchaseServiceImplTest {
                 .thenReturn(BookBuilder.book2L());
         when(bookRepository.getBook(UUID.fromString("27eaa649-e8fa-4889-bd5a-ea6825b71e61")))
                 .thenReturn(BookBuilder.book3L());
-        List<PurchaseResultDTO> purchases = getAllPurchaseService.findAll(page);
+        List<PurchaseResultDTO> purchases = getAllPurchaseService.findAll(page, null);
 
         assertThat(2, is(purchases.size()));
 

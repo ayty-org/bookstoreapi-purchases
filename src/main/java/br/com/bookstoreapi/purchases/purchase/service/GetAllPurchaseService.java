@@ -9,5 +9,5 @@ import java.util.List;
 @FunctionalInterface
 public interface GetAllPurchaseService {
 
-    List<PurchaseResultDTO> findAll(Pageable pageable) throws EntityNotFoundException;
+    List<PurchaseResultDTO> findAll(Pageable pageable, String bearerToken) throws EntityNotFoundException;
 }

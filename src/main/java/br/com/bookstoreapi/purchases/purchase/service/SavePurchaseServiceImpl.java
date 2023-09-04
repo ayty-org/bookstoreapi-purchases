@@ -2,6 +2,7 @@ package br.com.bookstoreapi.purchases.purchase.service;
 
 import br.com.bookstoreapi.purchases.book.BookDTO;
 import br.com.bookstoreapi.purchases.book.BookRepository;
+import br.com.bookstoreapi.purchases.client.ClientDTO;
 import br.com.bookstoreapi.purchases.client.ClientRepository;
 import br.com.bookstoreapi.purchases.exception.BookOutOfStockException;
 import br.com.bookstoreapi.purchases.exception.EntityNotFoundException;
@@ -21,7 +22,6 @@ public class SavePurchaseServiceImpl extends UpdateBookStockService implements S
 
     private final PurchaseRepository purchaseRepository;
 
-
     public SavePurchaseServiceImpl(@Autowired PurchaseRepository purchaseRepository,
                                    BookRepository bookRepository, ClientRepository clientRepository) {
         super(bookRepository, clientRepository);
@@ -30,11 +30,10 @@ public class SavePurchaseServiceImpl extends UpdateBookStockService implements S
 
 
     @Override
-    public PurchaseResultDTO save(Purchase purchase) throws EntityNotFoundException, BookOutOfStockException {
+    public PurchaseResultDTO save(Purchase purchase, String bearerToken) throws EntityNotFoundException, BookOutOfStockException {
         List<BookDTO> books = getBooksByUuid(purchase.getBooksUuid());
-
         PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
-        purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid()));
+        purchaseResultDTO.setClientDTO(getClientByUuid(purchase.getClientUuid(), bearerToken));
         purchaseResultDTO.setBookDTOS(books);
         purchaseResultDTO.setAmount(getAmountToPay(books));
 

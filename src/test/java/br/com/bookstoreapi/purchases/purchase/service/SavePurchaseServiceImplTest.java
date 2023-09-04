@@ -41,7 +41,7 @@ class SavePurchaseServiceImplTest {
 
     @Test
     void saveTest() throws Exception{
-        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
+        when(clientRepository.getClient(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -54,7 +54,7 @@ class SavePurchaseServiceImplTest {
         when(repository.save(any())).thenReturn(PurchaseBuilder.purchase1L());
         when(bookRepository.update(any(), any())).thenReturn(null);
 
-        PurchaseResultDTO purchase = savePurchaseService.save(PurchaseBuilder.purchase1L());
+        PurchaseResultDTO purchase = savePurchaseService.save(PurchaseBuilder.purchase1L(), null);
 
         verify(repository, times(1)).save(any());
 
@@ -67,13 +67,13 @@ class SavePurchaseServiceImplTest {
     @Test
     void saveWhenClientDontExistTest(){
         assertThrows(EntityNotFoundException.class,
-                ()->savePurchaseService.save(PurchaseBuilder.purchase2L()));
+                ()->savePurchaseService.save(PurchaseBuilder.purchase2L(), null));
         verify(repository, never()).save(any());
     }
 
     @Test
     void saveWhenBookDontExistTest(){
-        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14")))
+        when(clientRepository.getClient(UUID.fromString("df670f4b-5d4d-4f70-ae78-f2ddc9fa1f14"), null))
                 .thenReturn(ClientBuilder.clientJenipapo1());
 
         when(bookRepository.getBook(UUID.fromString("12d51c0a-a843-46fc-8447-5fda559ec69b")))
@@ -81,7 +81,7 @@ class SavePurchaseServiceImplTest {
 
 
         assertThrows(EntityNotFoundException.class,
-                ()->savePurchaseService.save(PurchaseBuilder.purchase2L()));
+                ()->savePurchaseService.save(PurchaseBuilder.purchase2L(), null));
         verify(repository, never()).save(any());
     }
 }

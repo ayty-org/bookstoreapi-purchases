@@ -27,11 +27,11 @@ public class GetAllPurchaseServiceImpl extends GetFieldsByUuidService implements
 
 
     @Override
-    public List<PurchaseResultDTO> findAll(Pageable pageable) throws EntityNotFoundException {
+    public List<PurchaseResultDTO> findAll(Pageable pageable, String bearerToken) throws EntityNotFoundException {
         List<PurchaseResultDTO> purchaseResultDTOS = new LinkedList<>();
         for(Purchase purchase: purchaseRepository.findAll(pageable).toList()){
             PurchaseResultDTO purchaseResultDTO = PurchaseResultDTO.from(purchase);
-            purchaseResultDTO.setClientDTO(this.getClientByUuid(purchase.getClientUuid()));
+            purchaseResultDTO.setClientDTO(this.getClientByUuid(purchase.getClientUuid(), bearerToken));
             purchaseResultDTO.setBookDTOS(this.getBooksByUuid(purchase.getBooksUuid()));
             purchaseResultDTOS.add(purchaseResultDTO);
         }

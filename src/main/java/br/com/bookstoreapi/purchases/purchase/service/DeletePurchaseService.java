@@ -7,6 +7,6 @@ import java.util.UUID;
 @FunctionalInterface
 public interface DeletePurchaseService {
 
-    void delete(UUID id) throws EntityNotFoundException;
+    void delete(UUID id, String bearerToken) throws EntityNotFoundException;
 
 }

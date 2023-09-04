@@ -21,8 +21,8 @@ public class GetFieldsByUuidService {
 
 
 
-    protected ClientDTO getClientByUuid(UUID id) throws EntityNotFoundException {
-        ClientDTO clientDTO = clientRepository.getClient(id);
+    protected ClientDTO getClientByUuid(UUID id, String bearerToken) throws EntityNotFoundException {
+        ClientDTO clientDTO = clientRepository.getClient(id, bearerToken);
         if(clientDTO != null){
             return clientDTO;
         }
