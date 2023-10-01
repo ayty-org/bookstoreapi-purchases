@@ -2,7 +2,7 @@ spring:
   datasource:
     username: postgres
     url: jdbc:postgresql://localhost:5432/bookstoreapi_purchases
-    password: jackson1403
+    password: a
   flyway:
     locations: classpath:db/migration
     baseline-on-migrate: 'true'
